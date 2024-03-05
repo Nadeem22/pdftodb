@@ -9,3 +9,11 @@ IF EXISTS (SELECT * FROM UDB_41B557_Ganpati.sys.objects WHERE object_id = OBJECT
 
 IF EXISTS (SELECT * FROM UDB_41B557_Ganpati.sys.objects WHERE object_id = OBJECT_ID(N'UDB_41B557_Ganpati.dbo.RSSM_MERCHANDISE_DETAILS_1350') AND type in (N'U'))
     DROP TABLE UDB_41B557_Ganpati.dbo.RSSM_MERCHANDISE_DETAILS_1350;
+
+
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+</dependency>
