@@ -45,3 +45,61 @@ DROP TABLE [dbo].[QPS_PROD];
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RSSM_MERCHANDISE_DETAILS_1350]') AND type in (N'U'))
 DROP TABLE [dbo].[RSSM_MERCHANDISE_DETAILS_1350];
+===={{{{{{{={
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import java.time.LocalDateTime;
+
+public class HibernateTest {
+
+    private static SessionFactory sessionFactory;
+
+    static {
+        // Create the SessionFactory from hibernate.cfg.xml
+        try {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public static void main(String[] args) {
+        SessionFactory sf = getSessionFactory();
+        Session session = sf.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            // Instantiate your entity class
+            PayCndnAdjVO payCndnAdjVO = new PayCndnAdjVO();
+
+            // Set the properties of the entity
+            payCndnAdjVO.setPcdCndnId(1);
+            payCndnAdjVO.setPcdCrdnType(0);
+            payCndnAdjVO.setPcdBillNo("B123");
+            payCndnAdjVO.setPcdCrdnNo("CRD789");
+            payCndnAdjVO.setPcdAdjAmount(100.00);
+            payCndnAdjVO.setPcdAdjDate(new java.util.Date());
+            payCndnAdjVO.setTimestampColumn(LocalDateTime.now());
+
+            // Save the entity
+            session.save(payCndnAdjVO);
+
+            // Commit the transaction
+            tx.commit();
+        } catch (RuntimeException e) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            throw e; // or display error message
+        } finally {
+            session.close();
+        }
+    }
+}
