@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 @Service
 public class PDFParsingService {
 
-    // Autowire your repository
+    // Repository used to persist extracted Person entities
     @Autowired
     private PersonRepository personRepository;
 
