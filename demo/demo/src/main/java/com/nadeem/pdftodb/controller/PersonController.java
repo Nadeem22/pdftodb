@@ -26,7 +26,7 @@ public class PersonController {
             return ResponseEntity.badRequest().body("The file is empty.");
         }
 
-        if (!file.getContentType().equals("application/pdf")) {
+        if (!"application/pdf".equals(file.getContentType())) {
             return ResponseEntity.badRequest().body("The file is not a PDF.");
         }
 
